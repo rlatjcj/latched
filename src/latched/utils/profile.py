@@ -3,6 +3,9 @@
 
 import time
 from contextlib import contextmanager
+from latched.utils.logging import setup_logger
+
+logger = setup_logger(__name__)
 
 
 @contextmanager
@@ -19,11 +22,11 @@ def profile(name: str):
     >>> my_function took 0.0123 seconds
     """
     start = time.time()
-    print(f"\033[94mProfiling {name}...\033[0m", end="", flush=True)
+    logger.info(f"\033[94mProfiling {name}...\033[0m")
     yield
     end = time.time()
     duration = end - start
-    print(f"\r\033[97m[\033[0m\033[92m{name}\033[0m\033[97m]\033[0m took \033[93m{duration:.4f}\033[0m seconds")
+    logger.info(f"\033[97m[\033[0m\033[92m{name}\033[0m\033[97m]\033[0m took \033[93m{duration:.4f}\033[0m seconds")
 
 
 # Wrapper for profile a function as a decorator

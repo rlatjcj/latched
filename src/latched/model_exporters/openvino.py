@@ -7,6 +7,9 @@ from typing import TYPE_CHECKING
 
 from latched.model_exporters.base import BaseModelExporter
 from latched.model_wrappers.huggingface import HuggingFaceModelWrapper
+from latched.utils.logging import setup_logger
+
+logger = setup_logger(__name__)
 
 if TYPE_CHECKING:
     from latched.model_wrappers.base import BaseModelWrapper
@@ -26,6 +29,6 @@ class OpenVINOExporter(BaseModelExporter):
             model_wrapper.original_model.eval()
             export_from_model(model_wrapper.original_model, output_name, patch_16bit_model=True)
 
-            print(f"\nModel successfully exported to {output_name}")
+            logger.info(f"Model successfully exported to {output_name}")
         else:
             raise NotImplementedError(f"Unsupported model wrapper: {type(model_wrapper)}")
